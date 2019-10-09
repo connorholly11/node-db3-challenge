@@ -18,10 +18,12 @@ function findById(id) {
   return db("Schemes").where("id", "=", id);
 }
 
-function findSteps(id) {
-  return db("Schemes")
-    .from("steps")
-    .where("id", "=", id);
+function findSteps(schemeID) {
+  return db("steps")
+    .join("schemes", "steps.scheme_id", "=", "schemes.id")
+    .select("schemes.scheme_name", "steps.*")
+    .where("scheme_id", "=", schemeID)
+    .orderBy("step_number");
 }
 
 function add(scheme) {
